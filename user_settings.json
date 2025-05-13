@@ -1,0 +1,12 @@
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "description": "",
+  "shifts": {
+    "monday": ["08:00-13:00", "14:30-18:00"],
+    "tuesday": ["09:00-12:00"]
+  },
+  "preferred_spaces": ["225", "255"],
+  "user_creation_time": "2025-05-12T10:00:00Z",
+  "settings_last_update_time": "2025-05-12T10:00:00Z"
+}

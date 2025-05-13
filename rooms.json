@@ -1,0 +1,38 @@
+{
+  "Public Meeting Rooms": {
+    "group_id": "10165",
+    "rooms": [
+      { "id": "71621", "name": "225", "description": "Large meeting room", "item":"225" },
+      { "id": "71622", "name": "255", "description": "Small meeting room", "item":"255" }
+    ]
+  },
+  "SJSU Tech Spaces": {
+    "group_id": "13145",
+    "rooms": [
+      { "id": "55104", "name": "Sound Studio", "description": "4th floor dark room", "item" : "Recording Studio" },
+      { "id": "9731", "name": "Presentation Practice Room", "description": "Lower level", "item" :"Presentation Practice Room" },
+      { "id": "102831", "name": "Materials library", "description": "Who Cares", "item" :"Materials Library" },
+      { "id": "23613", "name": "KLEVER Lab", "description": "Who cares", "item" :"KLEVER Lab" },
+      { "id": "117233", "name": "Incubator Space", "description": "Its there but wouldnt notice", "item" : "Incubator"}
+    ]
+  },
+    "DHC": {
+    "group_id": "16967",
+    "rooms": [
+      { "id": "143174", "name": "DHC", "description": "Vibe Boards and glass walls", "item" : "Digital Humanities Center (40)" }
+    ]
+  },
+      "Classrooms and Meeting Rooms": {
+    "group_id": "1168",
+    "rooms": [
+      { "id": "71275", "name": "SCHIRO", "description": "There is a piano", "item":"Schiro (20)" },
+      { "id": "71276", "name": "AAACNA", "description": "Owl stays here", "item":"AAACNA 525 (8)" },
+      { "id": "71251", "name": "219", "description": "Clickshare and stuff", "item" :"219 (30)" },
+      { "id": "71249", "name": "217", "description": "Vibe Boards and glass walls", "item":"217 (30)" },
+      { "id": "9769", "name": "213", "description": "Vibe Boards and glass walls", "item":"213 (47)" },
+      { "id": "9805", "name": "125", "description": "Vibe Boards and glass walls", "item":"125 (30) Projector not working" }
+      
+    ]
+  },
+  "rooms_of_concern": ["225", "255"]
+}

@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Assistant to the Assistant",
+  "version": "1.0",
+  "description": "A Chrome extension to simplify event management for SJSU library media services student assistants.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://booking.sjlibrary.org/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/logo-16.png",
+      "48": "assets/icons/logo-48.png",
+      "128": "assets/icons/logo-128.png"
+    }
+  },
+   "icons": {
+     "16": "assets/icons/logo-16.png",
+      "48": "assets/icons/logo-48.png",
+      "128": "assets/icons/logo-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://booking.sjlibrary.org/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
