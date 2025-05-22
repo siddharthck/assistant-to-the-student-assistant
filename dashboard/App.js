@@ -6,10 +6,10 @@ import LandingPage from "./components/LandingPage";
 function App() {
   const [showDashboard, setShowDashboard] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
-  const [timeRange, setTimeRange] = React.useState("");
+  const [selectedDate, setSelectedDate] = React.useState("");
 
-  const navigateToDashboard = (range) => {
-    setTimeRange(range);
+  const navigateToDashboard = (date) => {
+    setSelectedDate(date || new Date().toISOString().split('T')[0]);
     setShowDashboard(true);
     setShowSettings(false);
   };
@@ -25,7 +25,7 @@ function App() {
       {showSettings ? (
         <LandingPage navigateToDashboard={navigateToDashboard} />
       ) : showDashboard ? (
-        <Dashboard timeRange={timeRange} />
+        <Dashboard selectedDate={selectedDate} />
       ) : (
         <LandingPage navigateToDashboard={navigateToDashboard} />
       )}

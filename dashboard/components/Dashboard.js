@@ -3,25 +3,34 @@ import React, { useEffect, useState } from "react";
 import rooms from '../../rooms.json';
 import { extractEventMetadata } from '../../utils/parser';
 
-function Dashboard({ timeRange }) {
+function Dashboard({ selectedDate }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log("Dashboard component mounted with timeRange:", timeRange);
+  console.log("Dashboard component mounted with selectedDate:", selectedDate);
+
+  function getTimeRange(date) {
+    const referenceDate = date ? new Date(date) : new Date();
+    const startDate = referenceDate.toISOString().split('T')[0];
+    const endDate = new Date(referenceDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    return { startDate, endDate };
+  }
 
   useEffect(() => {
     async function loadEvents() {
-      console.log("Loading events for timeRange:", timeRange);
+      console.log("Loading events for selectedDate:", selectedDate);
       setLoading(true);
       try {
-        // Fetch event list for all groups
         const roomsData = require("../../rooms.json");
         console.log("Rooms data loaded:", roomsData);
+
+        const calculatedTimeRange = getTimeRange(selectedDate);
 
         const eventPromises = Object.values(roomsData).flatMap((group) => {
           if (group.group_id) {
             console.log("Fetching events for group_id:", group.group_id);
-            return fetchEventList(group.group_id, timeRange);
+            return fetchEventListFromBackground(group.group_id, calculatedTimeRange);
           }
           return [];
         });
@@ -29,17 +38,16 @@ function Dashboard({ timeRange }) {
         const eventLists = await Promise.all(eventPromises);
         console.log("Event lists fetched:", eventLists);
 
-        const allEvents = eventLists.flatMap((list) => {
-          if (Array.isArray(list)) {
-            return list;
+        const allEvents = eventLists.flatMap((response) => {
+          if (response && Array.isArray(response)) {
+            return response;
           } else {
-            console.warn("Unexpected response format:", list);
+            console.warn("Unexpected response format:", response);
             return [];
           }
         });
         console.log("All events after flattening:", allEvents);
 
-        // Fetch detailed event data
         const detailedEventPromises = allEvents.map((event) => {
           console.log("Fetching details for event:", event);
           return fetchEventDetails(event.bookId);
@@ -58,7 +66,7 @@ function Dashboard({ timeRange }) {
     }
 
     loadEvents();
-  }, [timeRange]);
+  }, [selectedDate]);
 
   useEffect(() => {
     async function fetchAndProcessEvents() {
@@ -187,4 +195,26 @@ async function fetchEventDetails(bookId) {
   }
 
   return response.html;
+}
+
+async function fetchEventListFromBackground(groupId, timeRange) {
+  const message = {
+    type: 'fetchEventList',
+    groupId,
+    eventIds: [],
+    startDate: timeRange.startDate,
+    endDate: timeRange.endDate,
+    daily: false,
+  };
+
+  const response = await new Promise((resolve) => {
+    chrome.runtime.sendMessage(message, resolve);
+  });
+
+  if (response.error) {
+    console.error("Error fetching event list:", response.error);
+    throw new Error(response.error);
+  }
+
+  return response.data;
 }
